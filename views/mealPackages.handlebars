@@ -1,0 +1,21 @@
+<div class="packages-logo">
+    <img id="packages-img" src="/img/packages.jpeg" alt="Student" width="100%">
+    <div id="packages-slogan">Meal Packages</div>
+</div>
+
+<section class="featured">
+    <p>
+        Pick a package, choose your meals, achieve your goal - <em>it's that easy!</em>
+    </p>
+
+    <div class="dishes">
+        {{#each data}}
+        <div class="featured-item">
+            <img src="/img/{{this.imgPath}}" alt="{{this.title}}">
+            <h4>{{this.title}}</h4>
+            <p>{{this.synopsis}}</p>
+            <p>${{this.price}}</p>
+        </div>
+        {{/each}}
+    </div>
+</section>

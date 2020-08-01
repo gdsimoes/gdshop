@@ -1,0 +1,14 @@
+.hero {
+    margin: 0;
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+#hero-slogan {
+    font-size: 5em;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

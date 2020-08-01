@@ -1,0 +1,27 @@
+<form action="/customerRegistration" method="post" class="form-login">
+    <h1>Create Account</h1>
+    <div class="form-login">
+        <label for="name">First Name: </label>
+        <input type="text" name="firstName" id="firstName">
+    </div>
+    <div class="form-login">
+        <label for="name">Last Name: </label>
+        <input type="text" name="lastName" id="lastName">
+    </div>
+    <div class="form-login">
+        <label for="name">Email: </label>
+        <input type="email" name="email" id="email">
+    </div>
+    <div class="form-login">
+        <label for="email">Password: </label>
+        <input type="password" name="password" id="password">
+    </div>
+    <div class="form-login">
+        {{#each errors}}
+        <p class="errors">{{this}}</p>
+        </br>
+        {{/each}}
+        <input type="submit" value="SIGN UP">
+    </div>
+</form>
+<br>

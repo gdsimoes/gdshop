@@ -1,0 +1,42 @@
+<figure class="hero">
+    <img id="hero-img" src="/img/hero.jpeg" alt="Student" width="100%">
+    <figcaption id="hero-slogan">Meals delivered to your house.</figcaption>
+</figure>
+
+<section class="content">
+    <h2>No cooking, just eating.</h2>
+
+    <div class="features">
+        <div class="features-item">
+            <img src="/img/choose.jpg" alt="Choose">
+            <h3>Choose</h3>
+            <p>All meals are organic.</p>
+        </div>
+
+        <div class="features-item">
+            <img src="/img/heat.jpg" alt="Heat">
+            <h3>Heat</h3>
+            <p>Cooked and delivered!</p>
+        </div>
+
+        <div class="features-item">
+            <img src="/img/eat.jpg" alt="Eat">
+            <h3>Eat</h3>
+            <p>Enjoy eating!</p>
+        </div>
+    </div>
+</section>
+
+<section class="featured">
+    <h2>These are our featured dishes!</h2>
+
+    <div class="dishes">
+        {{#each data}}
+        <div class="featured-item">
+            <img src="/img/{{this.imgPath}}" alt="{{this.title}}">
+            <h4>{{this.title}}</h4>
+            <p>${{this.price}}</p>
+        </div>
+        {{/each}}
+    </div>
+</section>

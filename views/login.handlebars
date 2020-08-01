@@ -1,0 +1,19 @@
+<form action="/login" method="post" class="form-login">
+    <h1>Customer Login</h1>
+    <div class="form-login">
+        <label for="name">Email: </label>
+        <input type="email" name="email" id="email">
+    </div>
+    <div class="form-login">
+        <label for="email">Password: </label>
+        <input type="password" name="password" id="password">
+    </div>
+    <div class="form-login">
+        {{#each errors}}
+        <p class="errors">{{this}}</p>
+        </br>
+        {{/each}}
+        <input type="submit" value="LOG IN">
+    </div>
+</form>
+<br>
