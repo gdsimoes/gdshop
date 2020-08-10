@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+// Load database
+const db = require("../models/db");
+
 // Login page
 router.get("/", (req, res) => {
     res.render("login", {
@@ -27,7 +30,21 @@ router.post("/", (req, res) => {
             errors: errors,
         });
     } else {
-        res.redirect("/");
+        db.validateUser(req.body)
+            .then((users) => {
+                req.session.user = users[0];
+                res.redirect("/dashboard");
+            })
+            .catch((err) => {
+                console.log(err);
+                errors.push(
+                    "Sorry, you entered the wrong email and/or password"
+                );
+                res.render("login", {
+                    title: "Login - GDShop",
+                    errors: errors,
+                });
+            });
     }
 });
 

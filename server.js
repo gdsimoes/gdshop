@@ -1,27 +1,39 @@
+// Heroku link: https://gds-web322-final.herokuapp.com/
+// GitHub link: https://github.com/gdsimoes/web322-assignment-final
+// email: gds.simoes@gmail.com pw: 123456
+
 const express = require("express");
 const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+const clientSessions = require("client-sessions");
 
 // Load environment variable file
 require("dotenv").config({ path: "./config/keys.env" });
 
-// Testing databse connection
-let db = mongoose.createConnection(
-    "mongodb+srv://gdsimoes:1234567890@senecaweb.p0fu3.mongodb.net/web322?retryWrites=true&w=majority",
-    { useNewUrlParser: true, useUnifiedTopology: true }
-);
+// Load database
+const db = require("./models/db");
 
-db.on("error", (err) => {
-    console.log("db error!");
-});
-
-db.once("open", () => {
-    console.log("db success!");
-});
+// Connect to database
+db.initialize()
+    .then(() => {
+        console.log("Successfully connected to database.");
+    })
+    .catch((err) => {
+        console.log(`Error: ${err}`);
+    });
 
 // Begin the app
 const app = express();
+
+//Setup client-sessions
+app.use(
+    clientSessions({
+        cookieName: "session",
+        secret: process.env.CLIENT_SESSIONS_SECRET,
+        duration: 2 * 60 * 1000, // two minutes
+        activeDuration: 1000 * 60, // one minute
+    })
+);
 
 // Set up handlebars
 app.engine("handlebars", exphbs());
@@ -37,11 +49,13 @@ app.use(express.static("public"));
 const generalController = require("./controllers/general");
 const loginController = require("./controllers/login");
 const registrationController = require("./controllers/registration");
+const mealPackagesController = require("./controllers/mealPackages");
 
 // Map each controller to the app object
 app.use("/", generalController);
 app.use("/login", loginController);
 app.use("/customerRegistration", registrationController);
+app.use("/mealPackages", mealPackagesController);
 
 // Start the server
 app.listen(process.env.PORT, () => {

@@ -1,6 +1,23 @@
 const express = require("express");
 const router = express.Router();
 
+// Load database
+const db = require("../models/db");
+
+// Email functionality
+function sendEmail(firstName, lastName, email) {
+    const sgMail = require("@sendgrid/mail");
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+        to: `${email}`,
+        from: `gds.simoes@gmail.com`,
+        subject: "Welcome to GDShop!",
+        html: `Hello, ${firstName} ${lastName}! Welcome to the best site ever!`,
+    };
+
+    return sgMail.send(msg);
+}
+
 // Customer Registration
 router.get("/", (req, res) => {
     res.render("register", {
@@ -37,25 +54,30 @@ router.post("/", (req, res) => {
             errors: errors,
         });
     } else {
-        const sgMail = require("@sendgrid/mail");
-        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-        const msg = {
-            to: `${email}`,
-            from: `gds.simoes@gmail.com`,
-            subject: "Welcome to GDShop!",
-            html: `Hello, ${firstName} ${lastName}! Welcome to the best site ever!`,
-        };
-
-        sgMail
-            .send(msg)
+        db.addUser(req.body)
             .then(() => {
-                res.render("dashboard", {
-                    title: "Dashboard - GDShop",
-                    greeting: `Hello, ${firstName} ${lastName}! Welcome to GDShop!`,
-                });
+                sendEmail(firstName, lastName, email)
+                    .then(() => {
+                        db.getUsers()
+                            .then((data) => {
+                                req.session.user = data[data.length - 1];
+                                res.redirect("/dashboard");
+                            })
+                            .catch((err) => {
+                                res.redirect("/dashboard");
+                            });
+                    })
+                    .catch((err) => {
+                        console.log(`Email error: ${err}`);
+                    });
             })
             .catch((err) => {
-                console.log(`Error ${err}`);
+                console.log(`Error adding user: ${err}`);
+                errors.push("Email already registered");
+                res.render("register", {
+                    title: "Registration - GDShop",
+                    errors: errors,
+                });
             });
     }
 });

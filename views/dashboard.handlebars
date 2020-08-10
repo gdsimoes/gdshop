@@ -3,4 +3,12 @@
     <div id="packages-slogan">Dashboard</div>
 </div>
 
-<h1 id="greeting">{{greeting}}</h1>
+<h1 id="greeting">Hello, {{user.[firstName]}} {{user.[lastName]}}!</h1>
+
+<a href="/logout">Logout</a>
+
+{{#if user.[clerk]}}
+<br>
+<a href="/mealPackages/edit">Edit Meal Packages</a>
+{{else}}
+{{/if}}

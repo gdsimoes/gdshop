@@ -1,21 +1,22 @@
 <form action="/customerRegistration" method="post" class="form-login">
     <h1>Create Account</h1>
     <div class="form-login">
-        <label for="name">First Name: </label>
+        <label for="firstName">First Name: </label>
         <input type="text" name="firstName" id="firstName">
     </div>
     <div class="form-login">
-        <label for="name">Last Name: </label>
+        <label for="lastName">Last Name: </label>
         <input type="text" name="lastName" id="lastName">
     </div>
     <div class="form-login">
-        <label for="name">Email: </label>
+        <label for="email">Email: </label>
         <input type="email" name="email" id="email">
     </div>
     <div class="form-login">
-        <label for="email">Password: </label>
+        <label for="password">Password: </label>
         <input type="password" name="password" id="password">
     </div>
+    <input type="hidden" name="clerk" id="clerk">
     <div class="form-login">
         {{#each errors}}
         <p class="errors">{{this}}</p>

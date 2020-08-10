@@ -1,0 +1,85 @@
+<h1>Edit Meal Packages</h1>
+
+{{#if meal}}
+<form action="/mealPackages/edit" method="post" class="form-login">
+    <h2>Edit '{{meal.title}}' Meal Package</h2>
+    <input type="hidden" name="title" id="title" value="{{meal.title}}">
+    <div class="form-login">
+        <label for="price">Price: </label>
+        <input type="number" name="price" id="price" step="0.01" value="{{meal.price}}">
+    </div>
+    <div class="form-login">
+        <label for="synopsis">Synopsis: </label>
+        <input type="text" name="synopsis" id="synopsis" value="{{meal.synopsis}}">
+    </div>
+    <div class="form-login">
+        <label for="foodCategory">Food Category: </label>
+        <input type="text" name="foodCategory" id="foodCategory" value="{{meal.foodCategory}}">
+    </div>
+    <div class="form-login">
+        <label for="numberOfMeals">Number of Meals: </label>
+        <input type="number" name="numberOfMeals" id="numberOfMeals" value="{{meal.numberOfMeals}}">
+    </div>
+    <div class="form-login">
+        <label for="topPackage">Top Package: </label>
+        {{#if meal.topPackage}}
+        <input type="checkbox" name="topPackage" id="topPackage" checked>
+        {{else}}
+        <input type="checkbox" name="topPackage" id="topPackage">
+        {{/if}}
+    </div>
+    <div class="form-login">
+        {{#each errors}}
+        <p class="errors">{{this}}</p>
+        </br>
+        {{/each}}
+        <input type="submit" value="EDIT">
+    </div>
+</form>
+{{else}}
+<form action="/mealPackages/add" method="post" class="form-login" enctype="multipart/form-data">
+    <h2>Add Meal Package</h2>
+    <div class="form-login">
+        <label for="title">Meal Package Title: </label>
+        <input type="text" name="title" id="title">
+    </div>
+    <div class="form-login">
+        <label for="price">Price: </label>
+        <input type="number" name="price" id="price" step="0.01">
+    </div>
+    <div class="form-login">
+        <label for="synopsis">Synopsis: </label>
+        <input type="text" name="synopsis" id="synopsis">
+    </div>
+    <div class="form-login">
+        <label for="foodCategory">Food Category: </label>
+        <input type="text" name="foodCategory" id="foodCategory">
+    </div>
+    <div class="form-login">
+        <label for="numberOfMeals">Number of Meals: </label>
+        <input type="number" name="numberOfMeals" id="numberOfMeals">
+    </div>
+    <div class="form-login">
+        <label for="topPackage">Top Package: </label>
+        <input type="checkbox" name="topPackage" id="topPackage">
+    </div>
+    <div class="form-login">
+        <label for="photo">Photo of Package: </label>
+        <input type="file" name="photo" id="photo">
+    </div>
+    <div class="form-login">
+        {{#each errors}}
+        <p class="errors">{{this}}</p>
+        </br>
+        {{/each}}
+        <input type="submit" value="ADD">
+    </div>
+</form>
+{{/if}}
+
+
+
+{{#each data}}
+<p>Title: {{title}} <a href="/mealPackages/edit?title={{title}}">Edit</a> <a
+        href="/mealPackages/delete?title={{title}}">Delete</a></p>
+{{/each}}

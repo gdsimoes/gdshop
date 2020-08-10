@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-// Load models
+// Load products
 const product = require("../models/product");
-const package = require("../models/package");
+
+// Load database
+const db = require("../models/db");
 
 // Home Page
 router.get("/", (req, res) => {
@@ -14,18 +16,25 @@ router.get("/", (req, res) => {
     });
 });
 
-// Meal Packages
-router.get("/mealPackages", (req, res) => {
-    res.render("mealPackages", {
-        title: "Meal Packages - GDShop",
-        data: package.getAllPackages(),
-        style: "mealPackages.css",
-    });
+router.get("/logout", (req, res) => {
+    req.session.reset();
+    res.redirect("/login");
 });
 
+function ensureLogin(req, res, next) {
+    if (!req.session.user) {
+        res.redirect("/login");
+    } else {
+        next();
+    }
+}
+
 // dashboard
-router.get("/dashboard", (req, res) => {
-    res.redirect("/dashboard");
+router.get("/dashboard", ensureLogin, (req, res) => {
+    res.render("dashboard", {
+        title: "Dashboard - GDShop",
+        user: req.session.user,
+    });
 });
 
 module.exports = router;
